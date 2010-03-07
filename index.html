@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de-DE"> 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-<title>Test 3</title>
+<title>Test 4</title>
 <!--script src="http://jquery-ui.googlecode.com/svn/trunk/jquery-1.4.1.js" type="text/javascript" charset="utf-8"></script--> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script> 
 <script src="jquery.jeditable.js" type="text/javascript" charset="utf-8"></script> 
@@ -74,14 +74,19 @@ body, textarea {
 
 img { margin-bottom: 1.5em; }
 
-textarea { border: 1px dotted #666; margin: -5px; padding: 4px; font-size: 100%; line-height: 1.5; margin-top: 3px; background: Transparent; }
+textarea { border: 1px dotted #666; margin: -5px; padding: 4px; font-size: 100%; line-height: 1.5; margin-top: 3px; background: Transparent; outline: 0; }
 button { margin-top: 10px; }
 li textarea { margin-bottom: 5px; }
 blockquote textarea { color:#666;font-style:italic; padding: 4px 22px; }
 blockquote form { margin: 0 -18px; }
 
 h1,h2,h3,h4,h4,h6 { color: #fff; font-family: Helvetica, Arial, sans-serif; }
-h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea { color: #fff; font-family: Helvetica, Arial, sans-serif; }
+h1,h2,h3,h4,h4,h6 { text-shadow: #000 0px 1px 1px; }
+
+h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea
+{ color: #fff; font-family: Helvetica, Arial, sans-serif; }
+h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea
+{ text-shadow: #000 0px 1px 1px; }
 
 h1 textarea {line-height:1;}
 h2 textarea {}
@@ -127,7 +132,7 @@ a:hover{ color: #FFF; }
 }
 
 .floating_admin_options h1 {
-  color: #666; font-size: 2em; margin-bottom: 0.75em;
+  color: #666; font-size: 2em; margin-bottom: 0.75em; text-shadow: none;
 }
 
 .floating_admin_options input[type="submit"] {
@@ -158,7 +163,7 @@ a:hover{ color: #FFF; }
 .floating_menu {
   width: 75px;
   position:fixed;
-  right:20px; top:50px;
+  right:25px; top:50px;
 }
 .floating_menu span {
   font-size: 10px; line-height:15px;
@@ -177,11 +182,12 @@ a:hover{ color: #FFF; }
 
 .precis-control:hover {
   z-index: 1;
+  /* -webkit-box-shadow: #000 0px 0px 18px; */ /* looks gross :( */
 }
 
 .precis-control > * {
-  margin-bottom: 0;
-  padding-bottom: 0;
+/*  margin-bottom: 0; */
+/*  padding-bottom: 0;*/
 }
 
 .precis-control blockquote {
@@ -189,11 +195,25 @@ a:hover{ color: #FFF; }
 }
 
 .row-actions {
-  visibility: hidden;
+  /* visibility: hidden; */
+  display: none;
   cursor: default;
-  font-size: 10px; line-height:18px;
+  font-size: 10px;
+  line-height:18px; margin-top: -18px; /* the same, but complimentary */
   font-family: Arial; color: #666;
 	padding: 0;
+	/* below should only show if needed? */
+	background-color: rgb(51, 51, 51);
+	filter: alpha(opacity=85);
+  opacity: .85;
+  
+  background-color: #222; padding: 0 2px;
+  border: 0px solid #222;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  margin-top: -18px;
+  float:left;
 }
 
 .precis-control button {
@@ -213,17 +233,13 @@ a:hover{ color: #FFF; }
   border-color: #FFF;
 }
 
-li .row-actions {
-  text-align: right; padding-right: 25px;
-	height: 54px;
-	top: 0; left: -325px;
-}
-
 .precis-control:hover .row-actions, .row-actions:active {
-	visibility: visible;
+	display: block;
 }
 
-.red { color: red; }
+.precis-state-disabled .precis-control:hover .row-actions {
+	display: none;
+}
 
 span.edit:hover,
 span.add:hover,
@@ -236,18 +252,18 @@ span.change {
 	position: relative;
 }
 
+span.tip { font-style: italic; }
+
 span.change div {
 	display: none;
 	position: absolute;
 	left: 0;
 	top: 0px;
-  filter: alpha(opacity=95);
-  opacity: .95;
 }
 
 span.change:hover div {
 	display: block;
-	width: 180px;
+	width: 120px;
 }
 
 span.disabled, span.disabled:hover { background-color: Transparent; color: #454545; text-decoration: line-through;  }
@@ -286,7 +302,7 @@ span.change ul li span {
   text-transform: lowercase;
   font-variant: small-caps;
   letter-spacing: 1px;
-  color: #999;
+  color: #999; color: #888;
   font-size: 12px;
 }
 
@@ -307,7 +323,7 @@ span.change ul li:hover {
 }
 
 span.change ul li:hover span {
-	color: #055a9b;
+	color: #055a9b; color: #044475;
 	text-shadow: .8px .8px .5px #74b9e8;
 }
 
@@ -333,6 +349,10 @@ span.change ul li:last-child {
 	-webkit-border-bottom-right-radius: 4px;
 }
 
+
+/* menu hover test */
+/* p {margin-bottom:0} */
+
 </style>
 
 <script type="text/javascript" charset="utf-8">
@@ -340,9 +360,12 @@ span.change ul li:last-child {
 $(document).ready(function() {
 
     var editable_settings = {
-        tooltip : "Double click to edit. Drag to rearrange.",
-        placeholder: "Double click to edit",
-        event   : "dblclick",
+        //tooltip : "Double click to edit",
+        //placeholder: "Double click to edit",
+        //event   : "dblclick",
+        tooltip : "Click to edit",
+        placeholder: "Click to edit",
+        event   : "click",
         type    : 'autogrow',
         method  : "put",
         submit  : 'OK',
@@ -353,56 +376,87 @@ $(document).ready(function() {
 
     // MUST be before the wrap OR must change to select correctly. Hrmm.
     
-    
     $.fn.addPrecis = function() {
       $(this).each( function() {
-        if ( $(this).attr("tagName").toLowerCase()=='ul' || $(this).attr("tagName").toLowerCase()=='ol' ) {
-          $(this).find('li').editable( function(value,settings) { return parse_input(value, settings, this); } , editable_settings );
-          $(this).addClass('target');
-          $(this).wrap('<div class="precis-control">').parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="add">add item</span> | <span class="change">change type<div><ul><li><em>ul</em><span>bulleted list</span></li><li><em>ol</em><span>numbered list</span></li></ul></span></div>');
+        if ( $(this).attr("tagName").toLowerCase()=='img' ) {
+          // skip!
         } else {
-          $(this).editable( function(value,settings) { return parse_input(value, settings, this); }, editable_settings );
-          $(this).addClass('target');
-          $(this).wrap('<div class="precis-control">').parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="change">change type<div><ul><li><em>p</em><span>paragraph</span></li><li><em>h1</em><span>heading 1</span></li><li><em>h2</em><span>heading 2</span></li><li><em>h3</em><span>heading 3</span></li></ul></span></div></div>');
+          if ( $(this).attr("tagName").toLowerCase()=='ul' || $(this).attr("tagName").toLowerCase()=='ol' ) {
+            $(this).find('li').editable( function(value,settings) { return parse_input(value, settings, this); } , editable_settings );
+            $(this).find('li').addClass('target');
+            $(this).wrap('<div class="precis-control">').parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="add">add item</span> | <span class="change">change type<div><ul><li><em>ul</em><span>bulleted list</span></li><li><em>ol</em><span>numbered list</span></li></ul></span></div></span></div>');
+          } else {
+            $(this).editable( function(value,settings) { return parse_input(value, settings, this); }, editable_settings );
+            $(this).addClass('target');
+            $(this).wrap('<div class="precis-control">').parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="change">change type<div><ul><li><em>p</em><span>paragraph</span></li><li><em>h1</em><span>heading 1</span></li><li><em>h2</em><span>heading 2</span></li><li><em>h3</em><span>heading 3</span></li><li><em>blockquote</em><span></span></li></ul></span></div></span></div>');
+          }
+          $(this).parent().find('span.edit').click(       function() { $(this).editPrecis();          } );
+          $(this).parent().find('span.delete').click(     function() { $(this).deletePrecis();        } );
+          $(this).parent().find('span.add').click(        function() { $(this).addPrecisListItem();   } );
+          $(this).parent().find('span.change li').click(  function() { $(this).changePrecisType();    } );
         }
-        
-        $(this).parent().find('span.edit').click(    function() { $(this).editPrecis();          } );
-        $(this).parent().find('span.delete').click(  function() { $(this).deletePrecis();        } );
-        $(this).parent().find('span.add').click(     function() { $(this).addPrecisListItem();   } );
-        $(this).parent().find('span.change li').click(  function() { $(this).changePrecisType();    } );
-        
       });
     }
     
-    $.fn.editPrecis = function() {
-      var tagType = $(this).findTarget().attr("tagName").toLowerCase();
-      if ( tagType == 'ul' || tagType == 'ol' ) $(this).findTarget().children('li:first').dblclick();
-      else $(this).findTarget().dblclick();
-    }
+    $.fn.editPrecis = function() { $(this).findTarget().click(); }
     $.fn.deletePrecis = function() { if (confirm('You are about to delete ...')) $(this).findControl().remove(); }
-    $.fn.addPrecisListItem = function() { $(this).findTarget().append('<li>Double click to edit your new element</li>'); }
+    $.fn.addPrecisListItem = function() {
+      var e = $( document.createElement('li') );
+      e.html('Click to edit your new item');
+      $(this).findTarget().after(e);
+      e.editable( function(value,settings) { return parse_input(value, settings, this); } , editable_settings );
+    }
     $.fn.changePrecisType = function() {
-        var tagType = $(this).children('em').text().toLowerCase();
-        var e = $( document.createElement( tagType ) );
-        e.html($(this).findTarget().html());
-        $(this).findControl().after(e);
-        $(this).findControl().remove();
-        e.addPrecis();
-      }
+      var tagType = $(this).children('em').text().toLowerCase();
+      var e = $( document.createElement( tagType ) );
+      if ( $(this).findTarget().attr("tagName").toLowerCase()=='li') e.html($(this).findTarget().parent().html());
+      else e.html($(this).findTarget().html());
 
-    $.fn.findTarget =   function() { return $(this).parents('.precis-control:first').children('.target:first'); }
+      $(this).findControl().after(e);
+      $(this).findControl().remove();
+      e.addPrecis();
+    }
+
+    $.fn.findTarget =   function() {
+      return $(this).parents('.precis-control:first').find('.target:last');
+    }
     $.fn.findControl =  function() { return $(this).parents('.precis-control:first'); }
 
-    $('.container > *').addPrecis();
+    $('.container > *').addPrecis(); // these lines turn on and off the editing.
 		$(".container").sortable();
+		$(".container").sortable('disable');
+		$('.disable-sortable').hide();
+
+    $('.enable-sortable').click( function() {
+      $(this).hide();
+      $('.container').addClass('precis-state-disabled');
+      $(".container").sortable('enable');
+      $('.target').each( function() {
+          $(this).editable('disable');
+          $(this).attr('title','Drag and drop to rearrange');
+      });
+      $('.disable-sortable').show();
+    });
+    $('.disable-sortable').click( function() {
+      $(this).hide();
+      $('.container').removeClass('precis-state-disabled');
+      $(".container").sortable('disable');
+      $('.target').each( function() {
+          $(this).editable('enable');
+          $(this).attr('title', editable_settings['tooltip']);
+      });
+      $('.enable-sortable').show();
+    });
 
     $(".floating_menu li").click( function () {
       var tagType = $(this).text().toLowerCase();
       var e = $( document.createElement( tagType ) );
       if (tagType=='ul' || tagType=='ol') {
-        e.html('<li>Double click to edit your new element</li>')
+        //e.html('<li>Double click to edit your new element</li>');
+        e.html('<li>Click to edit your new element</li>');
       } else {
-        e.html('Double click to edit your new element')  
+        //e.html('Double click to edit your new element');
+        e.html('Click to edit your new element');
       }
       
       $('.container').append(e);
@@ -411,16 +465,22 @@ $(document).ready(function() {
     
     $('.floating_admin_options').addClass('floating_login_tucked').click( function() {
       if ($(this).hasClass('floating_login_tucked')) {
-        $(this).removeClass('floating_login_tucked', 500);
+        $(this).removeClass('floating_login_tucked', 500, function() {
+          if ($(window).height() < $(this).height() ) $(this).css('position','absolute');          
+        });
       }
     });
        
     function parse_input(value, settings, element) {
       $(element).findControl().find('span.change').removeClass('disabled');
-      //if (value=='') {
-        //$(element).findControl().remove();
-        //return false;
-      //}
+      if (value=='') {
+        if ($(element).attr("tagName").toLowerCase() == 'li')
+          $(element).remove();
+        else
+          $(element).findControl().remove();
+          
+        return false;
+      }
       
       // strips html tags
       value=value.replace(/<\S[^><]*>/g, "");
@@ -472,7 +532,7 @@ $(document).ready(function() {
       
       if ( !($(this).parent().hasClass('inside')) ) {
         $(this).parent().addClass('inside');
-        $(this).siblings().dblclick();
+        $(this).siblings().click();
 
         /* create the form object */
         var form = $('<form>');
@@ -483,7 +543,7 @@ $(document).ready(function() {
             form.append(submit);
             
             $(submit).click(function(event) {
-                $parent = $(this).parents('.inside');  
+                $parent = $(this).parents('.inside');
                 $parent.find('li form').submit();
                 $parent.find('form').remove();
                 $parent.removeClass('inside');
@@ -590,7 +650,10 @@ $(document).ready(function() {
   <li>h3</li>
   <li>ul</li>
   <li>ol</li>
+  <li>blockquote</li>
 </ul>
+<span class="enable-sortable">pause editing and rearrange order</span>
+<span class="disable-sortable">save order and resume editing</span>
 </div>
 
 </body>
