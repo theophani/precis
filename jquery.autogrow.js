@@ -76,7 +76,7 @@
 		
 		stopExpand: function() {
 			clearInterval(this.interval);	
-			this.dummy.remove(); /* tiffany's fix */
+			//this.dummy.remove(); /* tiffany's fix */ fix this later
 		},
 		
 		checkExpand: function() {

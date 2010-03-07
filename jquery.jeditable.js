@@ -388,7 +388,8 @@
                         }
                         /* show tooltip again */
                         if (settings.tooltip) {
-                            $(self).attr('title', settings.tooltip);                
+                            $(self).attr('title', settings.tooltip);
+                            $(self).findControl().find('span.change').removeClass('disabled'); // tiffany added. would be better to have a callback
                         }
                     }                    
                 }
