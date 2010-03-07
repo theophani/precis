@@ -126,7 +126,7 @@ $(document).ready(function() {
               if ( $(this).attr("tagName").toLowerCase()=='li' )
                 $(this).edit_list(settings);
                 
-             return {value: value};
+             return {value: value, settings: settings};
           },
         loadtype : 'POST',
         indicator : "<img src='indicator.gif'>",
@@ -227,27 +227,27 @@ $(document).ready(function() {
 
 <img src="image.jpg" width="300px;" style="margin-bottom: 1.5em;" />
   
-<h1 class="h1">HTML Ipsum Presents</h1>
+<h1 id="1">HTML Ipsum Presents</h1>
 	       
-<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas.
+<p id="2"><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas.
   Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. <em>Aenean ultricies mi vitae est.</em>
   <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
 
-<p>Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Aenean ultricies mi vitae est.
+<p id="3">Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Aenean ultricies mi vitae est.
   Mauris placerat eleifend leo. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet,
   wisi.</p>
 
-<h2 class="h2">Header Level 2</h2>
+<h2 id="4">Header Level 2</h2>
 	       
 <ol>
    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
    <li>Aliquam tincidunt mauris eu risus.</li>
 </ol>
 
-<blockquote class="blockquote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna.
+<blockquote id="5">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna.
   Cras in mi at felis aliquet congue. Vivamus pretium ornare est.</blockquote>
 
-<h3 class="h3">Header Level 3</h3>
+<h3 id="6">Header Level 3</h3>
 
 <ul>
    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
