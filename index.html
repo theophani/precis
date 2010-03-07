@@ -1,29 +1,71 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="de-DE"> 
-<head>
+<head> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-<title>Test 4</title>
+<title>Persist Test</title> 
 <!--script src="http://jquery-ui.googlecode.com/svn/trunk/jquery-1.4.1.js" type="text/javascript" charset="utf-8"></script--> 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script> 
 <script src="jquery.jeditable.js" type="text/javascript" charset="utf-8"></script> 
 <script src="ui.core.js" type="text/javascript" charset="utf-8"></script> 
-<script src="ui.sortable.js" type="text/javascript" charset="utf-8"></script>
-
+<script src="ui.sortable.js" type="text/javascript" charset="utf-8"></script> 
+ 
 <script src="jquery.jeditable.autogrow.js" type="text/javascript" ></script> 
 <script type="text/javascript" src="jquery.autogrow.js"></script> 
-
-<script type="text/javascript" src="textile.js"></script>
-
-<script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/trunk/ui/jquery.effects.core.js"></script>
-
-<style type="text/css" media="screen">
+ 
+<script type="text/javascript" src="textile.js"></script> 
+ 
+<script type="text/javascript" src="http://jquery-ui.googlecode.com/svn/trunk/ui/jquery.effects.core.js"></script> 
+ 
+<script type="text/javascript"> 
+$(document).ready(function() {
+  
+  $("#persist").click(function(event) {
+    event.preventDefault();
+    $content = $('.container').clone();
+   
+    //$('.container').find('.precis-control form').each(function(){
+    //  val = $(this).find('textarea:first').val();
+    //  alert(val);
+    //});
+ 
+    $(this).html('Saving ...');
+ 
+    $content.find('.precis-control form').each(function(){
+      alert('Oops. You are in the middle of editing. I\'m not able to save right now. Yet.');
+      return;
+    });
+     
+    $content.find('.target').removeClass('target');
+    $content.find('.precis-control').removeClass('precis-control');
+ 
+    //if (confirm('BUGGY! REVIEW html before continuing: '+$content.html())) {
+      //Yes, PUT is not supported cross browser, I know.
+      $.ajax({
+        url: "/",
+        type: "PUT",
+        data: {
+          content: $content.html()
+        },
+        success: function() {
+          $('#persist').html('Saved');
+          setTimeout(function(){
+            $('#persist').html('Persist');
+    			}, 1500);
+        }
+      });
+    //}
+  });
+});
+</script> 
+ 
+<style type="text/css" media="screen"> 
 /* reset.css */
 html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}
 body {line-height:1.5;}
 blockquote:before, blockquote:after, q:before, q:after {content:"";}
 blockquote, q {quotes:"" "";}
 a img {border:none;}
-
+ 
 /* typography.css */
 body {font-size:75%;color:#222;background:#fff;font-family:Arial, Helvetica, sans-serif;}
 h1, h2, h3, h4, h5, h6 {font-weight:normal;color:#111;}
@@ -61,58 +103,58 @@ dd {margin-left:1.5em;}
 .last {margin-right:0;padding-right:0;}
 .top {margin-top:0;padding-top:0;}
 .bottom {margin-bottom:0;padding-bottom:0;}
-
+ 
 /*
 Our deviations from reset
 */
-
+ 
 body, textarea {
   color: rgb(47, 190, 53);
   background: rgb(51, 51, 51);
   font-family: 'Courier New', Courier, mono;
 }
-
+ 
 img { margin-bottom: 1.5em; }
-
+ 
 textarea { border: 1px dotted #666; margin: -5px; padding: 4px; font-size: 100%; line-height: 1.5; margin-top: 3px; background: Transparent; outline: 0; }
 button { margin-top: 10px; }
 li textarea { margin-bottom: 5px; }
 blockquote textarea { color:#666;font-style:italic; padding: 4px 22px; }
 blockquote form { margin: 0 -18px; }
-
+ 
 h1,h2,h3,h4,h4,h6 { color: #fff; font-family: Helvetica, Arial, sans-serif; }
 h1,h2,h3,h4,h4,h6 { text-shadow: #000 0px 1px 1px; }
-
+ 
 h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea
 { color: #fff; font-family: Helvetica, Arial, sans-serif; }
 h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea
 { text-shadow: #000 0px 1px 1px; }
-
+ 
 h1 textarea {line-height:1;}
 h2 textarea {}
 h3 textarea {line-height:1;}
 h4 textarea {line-height:1.25;}
 h5 textarea {font-weight:bold;}
 h6 textarea {font-weight:bold;}
-
+ 
 ul, ol {margin-left: 2em; margin-right: 0;}
 ul.inside, ol.inside { list-style-position: inside; margin-left: 0; margin-right: 2em; }
 .inside li button { display: none; }
 .inside button { margin-top: 0; }
-
+ 
 .container {
   width: 300px;
   margin: 50px auto;
   padding-right: 200px;
 }
-
+ 
 a { color: #990; }
 a:hover{ color: #FFF; }
-
-</style>
-
-<style type="text/css" media="screen">
-
+ 
+</style> 
+ 
+<style type="text/css" media="screen"> 
+ 
 .floating_admin_options {
   position:fixed;
   width: 250px;
@@ -122,19 +164,20 @@ a:hover{ color: #FFF; }
   -webkit-box-shadow: #000 0px 0px 18px;
   font-family: Arial; font-size: 10px;
 }
-
+ 
 .floating_admin_options label {
   width: 60px; display: block; float: left;
 }
-
+ 
 .floating_admin_options .submit input {
   margin-left: 62px;
 }
-
+ 
 .floating_admin_options h1 {
-  color: #666; font-size: 2em; margin-bottom: 0.75em; text-shadow: none;
+  color: #666; font-size: 2em; margin-bottom: 0.75em;
+	text-shadow: none;
 }
-
+ 
 .floating_admin_options input[type="submit"] {
   font-size: 10px; line-height:18px;
   font-family: Arial; color: #FFF;
@@ -145,21 +188,21 @@ a:hover{ color: #FFF; }
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-
+ 
 .floating_admin_options input[type="submit"]:hover {
 	background-color: #000;
   border-color: #000;
 }
-
+ 
 .floating_admin_options p {
   margin-bottom: 1em; clear: both;
 }
-
+ 
 .floating_login_tucked {
   padding-top: 30px; height: 25px; overflow: hidden;
   cursor: pointer;
 }
-
+ 
 .floating_menu {
   width: 75px;
   position:fixed;
@@ -173,27 +216,27 @@ a:hover{ color: #FFF; }
   text-decoration: underline;
   cursor: pointer;
 }
-
+ 
 .precis-control {
   position: relative;
   cursor: pointer;
   z-index: 0;
 }
-
+ 
 .precis-control:hover {
   z-index: 1;
   /* -webkit-box-shadow: #000 0px 0px 18px; */ /* looks gross :( */
 }
-
+ 
 .precis-control > * {
 /*  margin-bottom: 0; */
 /*  padding-bottom: 0;*/
 }
-
+ 
 .precis-control blockquote {
   margin-top: 0;
 }
-
+ 
 .row-actions {
   /* visibility: hidden; */
   display: none;
@@ -215,7 +258,7 @@ a:hover{ color: #FFF; }
   margin-top: -18px;
   float:left;
 }
-
+ 
 .precis-control button {
   font-size: 10px; line-height:18px;
   font-family: Arial; color: #FFF;
@@ -226,49 +269,49 @@ a:hover{ color: #FFF; }
   -moz-border-radius: 2px;
   border-radius: 2px;
 }
-
+ 
 .precis-control button:hover {
   color: #666;
 	background-color: #FFF;
   border-color: #FFF;
 }
-
+ 
 .precis-control:hover .row-actions, .row-actions:active {
 	display: block;
 }
-
+ 
 .precis-state-disabled .precis-control:hover .row-actions {
 	display: none;
 }
-
+ 
 span.edit:hover,
 span.add:hover,
 span.change:hover,
 span.delete:hover  { background-color: #666; color: #fff; cursor: pointer; }
 span.delete:hover { background-color: #C00; }
 span.change:hover { cursor: default; }
-
+ 
 span.change {
 	position: relative;
 }
-
+ 
 span.tip { font-style: italic; }
-
+ 
 span.change div {
 	display: none;
 	position: absolute;
 	left: 0;
 	top: 0px;
 }
-
+ 
 span.change:hover div {
 	display: block;
 	width: 120px;
 }
-
+ 
 span.disabled, span.disabled:hover { background-color: Transparent; color: #454545; text-decoration: line-through;  }
 span.disabled:hover div { display: none; }
-
+ 
 span.change ul {
   margin: 0;
   margin-top: 15px;
@@ -282,14 +325,14 @@ span.change ul {
     -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.6);
     -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.6);
 }
-
+ 
 span.change ul li {
 	display: block;
   margin: 0;
 	letter-spacing: 0;
 	text-transform: none;
 }
-
+ 
 span.change ul li  {
   color: #333;
 	display: block;
@@ -297,7 +340,7 @@ span.change ul li  {
 	border-top: 1px solid #ddd;
 	line-height: 1.1;
 }
-
+ 
 span.change ul li span {
   text-transform: lowercase;
   font-variant: small-caps;
@@ -305,28 +348,28 @@ span.change ul li span {
   color: #999; color: #888;
   font-size: 12px;
 }
-
+ 
 span.change ul li em {
   font-style: normal;
   display: inline-block; width: 2em;
 }
-
+ 
 span.change ul li:first-child {
 	border: none;
 }
-
+ 
 span.change ul li:hover {
 	background: #008df5;
 	color: #fff;
 	text-decoration: none;
 	text-shadow: .8px .8px .5px #00406f;
 }
-
+ 
 span.change ul li:hover span {
 	color: #055a9b; color: #044475;
 	text-shadow: .8px .8px .5px #74b9e8;
 }
-
+ 
 span.change ul li:first-child {
 	border-top-left-radius: 4px;
 	-o-border-top-left-radius: 4px;
@@ -337,7 +380,7 @@ span.change ul li:first-child {
 	-moz-border-radius-topright: 4px;
 	-webkit-border-top-right-radius: 4px;
 }
-
+ 
 span.change ul li:last-child {
 	border-bottom-left-radius: 4px;
 	-o-border-bottom-left-radius: 4px;
@@ -348,17 +391,17 @@ span.change ul li:last-child {
 	-moz-border-radius-bottomright: 4px;
 	-webkit-border-bottom-right-radius: 4px;
 }
-
-
+ 
+ 
 /* menu hover test */
 /* p {margin-bottom:0} */
-
-</style>
-
-<script type="text/javascript" charset="utf-8">
+ 
+</style> 
+ 
+<script type="text/javascript" charset="utf-8"> 
 <!--
 $(document).ready(function() {
-
+ 
     var editable_settings = {
         //tooltip : "Double click to edit",
         //placeholder: "Double click to edit",
@@ -370,10 +413,11 @@ $(document).ready(function() {
         method  : "put",
         submit  : 'OK',
         cancel  : 'Cancel',
+        del     : 'Delete',
         onblur  : "ignore",
         data    : prep_input
     }
-
+ 
     // MUST be before the wrap OR must change to select correctly. Hrmm.
     
     $.fn.addPrecis = function() {
@@ -384,16 +428,16 @@ $(document).ready(function() {
           if ( $(this).attr("tagName").toLowerCase()=='ul' || $(this).attr("tagName").toLowerCase()=='ol' ) {
             $(this).find('li').editable( function(value,settings) { return parse_input(value, settings, this); } , editable_settings );
             $(this).find('li').addClass('target');
-            $(this).wrap('<div class="precis-control">').parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="add">add item</span> | <span class="change">change type<div><ul><li><em>ul</em><span>bulleted list</span></li><li><em>ol</em><span>numbered list</span></li></ul></span></div></span></div>');
+            $(this).addClass('precis-control');//.parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="add">add item</span> | <span class="change">change type<div><ul><li><em>ul</em><span>bulleted list</span></li><li><em>ol</em><span>numbered list</span></li></ul></span></div></span></div>');
           } else {
             $(this).editable( function(value,settings) { return parse_input(value, settings, this); }, editable_settings );
             $(this).addClass('target');
-            $(this).wrap('<div class="precis-control">').parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="change">change type<div><ul><li><em>p</em><span>paragraph</span></li><li><em>h1</em><span>heading 1</span></li><li><em>h2</em><span>heading 2</span></li><li><em>h3</em><span>heading 3</span></li><li><em>blockquote</em><span></span></li></ul></span></div></span></div>');
+            $(this).addClass('precis-control');//.parent().prepend('<div class="row-actions"><span class="edit">edit</span> | <span class="delete">delete</span> | <span class="change">change type<div><ul><li><em>p</em><span>paragraph</span></li><li><em>h1</em><span>heading 1</span></li><li><em>h2</em><span>heading 2</span></li><li><em>h3</em><span>heading 3</span></li><li><em>blockquote</em><span></span></li></ul></span></div></span></div>');
           }
-          $(this).parent().find('span.edit').click(       function() { $(this).editPrecis();          } );
-          $(this).parent().find('span.delete').click(     function() { $(this).deletePrecis();        } );
-          $(this).parent().find('span.add').click(        function() { $(this).addPrecisListItem();   } );
-          $(this).parent().find('span.change li').click(  function() { $(this).changePrecisType();    } );
+          //$(this).parent().find('span.edit').click(       function() { $(this).editPrecis();          } );
+          //$(this).parent().find('span.delete').click(     function() { $(this).deletePrecis();        } );
+          //$(this).parent().find('span.add').click(        function() { $(this).addPrecisListItem();   } );
+          //$(this).parent().find('span.change li').click(  function() { $(this).changePrecisType();    } );
         }
       });
     }
@@ -411,22 +455,22 @@ $(document).ready(function() {
       var e = $( document.createElement( tagType ) );
       if ( $(this).findTarget().attr("tagName").toLowerCase()=='li') e.html($(this).findTarget().parent().html());
       else e.html($(this).findTarget().html());
-
+ 
       $(this).findControl().after(e);
       $(this).findControl().remove();
       e.addPrecis();
     }
-
+ 
     $.fn.findTarget =   function() {
       return $(this).parents('.precis-control:first').find('.target:last');
     }
     $.fn.findControl =  function() { return $(this).parents('.precis-control:first'); }
-
+ 
     $('.container > *').addPrecis(); // these lines turn on and off the editing.
 		$(".container").sortable();
 		$(".container").sortable('disable');
 		$('.disable-sortable').hide();
-
+ 
     $('.enable-sortable').click( function() {
       $(this).hide();
       $('.container').addClass('precis-state-disabled');
@@ -447,7 +491,7 @@ $(document).ready(function() {
       });
       $('.enable-sortable').show();
     });
-
+ 
     $(".floating_menu li").click( function () {
       var tagType = $(this).text().toLowerCase();
       var e = $( document.createElement( tagType ) );
@@ -494,7 +538,7 @@ $(document).ready(function() {
         $(this).edit_list(settings);
         
       $(this).findControl().find('span.change').addClass('disabled');
-
+ 
       // this is all html to textile:
       var $content = $('<div>').html(value);
         
@@ -504,17 +548,17 @@ $(document).ready(function() {
         em      : "_",
         i       : "_"
       }
-
+ 
       $.each(easyTags, function(k,v) {
         $content.find(k).each( function() {
           $(this).replaceWith(v + $(this).text() + v);
         });
       });
-
+ 
       $content.find('br').each( function() {
         $(this).replaceWith('\n');
       });
-
+ 
       $content.find('a').each( function() {
         $(this).replaceWith('"' + $(this).text() + '":' + $(this).attr('href') + '' );
       });
@@ -526,6 +570,8 @@ $(document).ready(function() {
       return value;
     }
     
+    // need to move this stuff into jeditable?
+    // need to extend jeditable for special kind of editable: edit CHILDREN EN MASSE option
     $.fn.edit_list = function(settings) {
       if ( $(this).attr("tagName").toLowerCase()!='li' )
         return;
@@ -533,13 +579,22 @@ $(document).ready(function() {
       if ( !($(this).parent().hasClass('inside')) ) {
         $(this).parent().addClass('inside');
         $(this).siblings().click();
-
+ 
         /* create the form object */
         var form = $('<form>');
         
         if (settings.submit) {
-            var submit = $('<button type="button">');
-            submit.html(settings.submit);
+            if (settings.submit.match(/>$/)) {
+                var submit = $(settings.submit).click(function() {
+                    if (submit.attr("type") != "submit") {
+                        form.submit();
+                    }
+                });
+            /* otherwise use button with given string as text */
+            } else {
+                var submit = $('<button type="submit" />');
+                submit.html(settings.submit);                            
+            }
             form.append(submit);
             
             $(submit).click(function(event) {
@@ -552,13 +607,20 @@ $(document).ready(function() {
             
         }
         if (settings.cancel) {
-            var cancel = $('<button type="button">');
-            cancel.html(settings.cancel);
+            /* if given html string use that */
+            if (settings.cancel.match(/>$/)) {
+                var cancel = $(settings.cancel);
+            /* otherwise use button with given string as text */
+            } else {
+                var cancel = $('<button type="cancel" />');
+                cancel.html(settings.cancel);
+            }
             form.append(cancel);
   
             $(cancel).click(function(event) {
+                event.preventDefault();
                 $parent = $(this).parents('.inside');  
-                $parent.find('li form :button').each( function() {
+                $parent.find('li form button').each( function() {
                     if ($(this).html() == settings.cancel)
                       $(this).click();
                 });
@@ -567,94 +629,111 @@ $(document).ready(function() {
             });
         }
         
+        if (settings.del) {
+            /* if given html string use that */
+            if (settings.del.match(/>$/)) {
+                var del = $(settings.del);
+            /* otherwise use button with given string as text */
+            } else {
+                var del = $('<button type="del" />');
+                del.html(settings.del);
+            }
+            form.append(del);
+ 
+            $(del).click(function(event) {
+                if (confirm(settings.delmsg)) $parent = $(this).parents('.inside').remove();
+                return false;
+            });
+        }
+        
         $(this).parent().append(form);
-
+ 
       }
       return;
     }
     
 });
 // -->
-</script>
-
+</script> 
+ 
 </head> 
-<body>
+<body> 
   
-<div class="container">
-
-<img src="image.jpg" width="300px;" alt="pretty grass" />
+<div class="container"> 
+<img src="image.jpg" width="300px;" alt="pretty grass"> 
   
-<h1 class="h1">HTML Ipsum Presents</h1>
-	       
-<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas.
-  Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. <em>Aenean ultricies mi vitae est.</em>
-  <a href="link">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-
-<p>Vestibulum tortor quam, feugiat <a href="linkurl">vitae</a>, comma is a problem? ultricies eget, tempor sit amet, ante. Aenean ultricies mi vitae est.
+<h1 class="h1" title="Click to edit">HTML Ipsum Presents</h1> 
+ 
+<p class="" title="Click to edit"><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. <em>Aenean ultricies mi vitae est.</em> <br>  <a href="link">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p> 
+ 
+<p title="Click to edit" class="">Vestibulum tortor quam, feugiat <a href="linkurl">vitae</a>, comma is a problem? ultricies eget, tempor sit amet, ante. Aenean ultricies mi vitae est.
   <a href="linkurl">vitae</a>touching is a problem? eleifend leo. <strike>Vestibulum</strike> erat wisi, condimentum sed, commodo vitae, ornare sit amet,
-  wisi.</p>
-
-<h2 class="h2">Header Level 2</h2>
-	       
-<ol>
-   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-   <li>Aliquam tincidunt mauris eu risus.</li>
-</ol>
-
-<blockquote class="blockquote">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna.
-  Cras in mi at felis aliquet congue. Vivamus pretium ornare est.</blockquote>
-
-<h3 class="h3">Header Level 3</h3>
-
-<ul>
-   <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-   <li>Aliquam tincidunt mauris eu risus.</li>
-</ul>
-
-<ul>
-	<li>Item 1</li> 
-	<li>Item 2</li> 
-	<li>Item 3</li> 
-	<li>Item 4</li> 
-	<li>Item 5</li> 
-	<li>Item 6</li> 
-	<li>Item 7</li> 
-</ul>
-
-</div>
-
-<div class="floating_admin_options">
-<h1>Login</h1>
-<form name="loginform" id="loginform" action="login" method="post">
+  wisi.</p> 
+ 
+<h2 class="h2" title="Click to edit">Header Level 2</h2> 
+ 
+<ol class=""> 
+   <li title="Click to edit" class="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li> 
+   <li title="Click to edit" class="">Aliquam tincidunt mauris eu risus.</li> 
+</ol> 
+ 
+<blockquote class="blockquote" title="Click to edit">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna.
+  Cras in mi at felis aliquet congue. Vivamus pretium ornare est.</blockquote> 
+ 
+<h3 class="h3" title="Click to edit">Header Level 3</h3> 
+ 
+<ul class=""> 
+   <li title="Click to edit" class="">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li> 
+   <li title="Click to edit" class="">Aliquam tincidunt mauris eu risus.</li> 
+</ul> 
+ 
+<ul class=""> 
+  <li class="" title="Click to edit">Item 1</li> 
+  <li class="" title="Click to edit">Item 2</li> 
+  <li class="" title="Click to edit">Item 3</li> 
+  <li class="" title="Click to edit">Item 4</li> 
+  <li class="" title="Click to edit">Item 5</li> 
+  <li class="" title="Click to edit">Item 6</li> 
+  <li class="" title="Click to edit">Item 7</li> 
+</ul> 
+</div> 
+ 
+ 
+<div class="floating_admin_options"> 
+<h1>Login</h1> 
+<form name="loginform" id="loginform" action="login" method="post"> 
 	<p> 
-		<label>Username</label>
+		<label>Username</label> 
 		<input type="text" name="log" id="user_login" class="input" value="" size="20" tabindex="10" /> 
 	</p> 
 	<p> 
-		<label>Password</label>
-		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" />
-	</p>
-	<p class="submit">
-		<input type="submit" name="submit" value="Log In" tabindex="100" />
-		<input type="hidden" name="testcookie" value="1" />
-	</p>
-</form>
-</div>
-
-<div class="floating_menu">
-<span>Click to add new items</span>
-<ul>
-  <li>p</li>
-  <li>h1</li>
-  <li>h2</li>
-  <li>h3</li>
-  <li>ul</li>
-  <li>ol</li>
-  <li>blockquote</li>
-</ul>
-<span class="enable-sortable">pause editing and rearrange order</span>
-<span class="disable-sortable">save order and resume editing</span>
-</div>
-
-</body>
+		<label>Password</label> 
+		<input type="password" name="pwd" id="user_pass" class="input" value="" size="20" tabindex="20" /> 
+	</p> 
+	<p class="submit"> 
+		<input type="submit" name="submit" value="Log In" tabindex="100" /> 
+		<input type="hidden" name="testcookie" value="1" /> 
+	</p> 
+</form> 
+</div> 
+ 
+<div class="floating_menu"> 
+<span>Click to add new items</span> 
+<ul> 
+  <li>p</li> 
+  <li>h1</li> 
+  <li>h2</li> 
+  <li>h3</li> 
+  <li>ul</li> 
+  <li>ol</li> 
+  <li>blockquote</li> 
+</ul> 
+<span class="enable-sortable">pause editing and rearrange order</span> 
+<span class="disable-sortable">save order and resume editing</span> 
+<br /> 
+<!-- a href="#" id="persist">Persist</a --!>
+ 
+</div> 
+ 
+</body> 
 </html>
