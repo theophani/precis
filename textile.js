@@ -3,7 +3,7 @@
 * update function from Jeff Minard - http://www.jrm.cc/
 * slash and burn (to limit support to only bold, italics and links) by Tiffany Conroy
 */
-function superTextile(s) {
+function superTextile(s,islist) {
     var r = s;
     // quick tags first
 //    qtags = [['\\*', 'strong'],
@@ -30,6 +30,7 @@ function superTextile(s) {
 
     // links
     re = new RegExp('"\\b(.+?)\\(\\b(.+?)\\b\\)":([^\\s]+)','g');
+    //re = new RegExp('"\\b(.+?)\\(\\b(.+?)\\b\\)":([^\\s]+)','g');
     r = r.replace(re,'<a href="$3" title="$2">$1</a>');
     re = new RegExp('"\\b(.+?)\\b":([^\\s]+)','g');
     r = r.replace(re,'<a href="$2">$1</a>');
@@ -49,46 +50,15 @@ function superTextile(s) {
 		// remove the stupid breaks.
 	    re = new RegExp('\n<br />','g');
 	    r = r.replace(re,'\n');
-	
-//    lines = r.split('\n');
-//    nr = '';
-//    for (var i=0;i<lines.length;i++) {
-//        line = lines[i].replace(/\s*$/,'');
-//        changed = 0;
-//        if (line.search(/^\s*bq\.\s+/) != -1) { 
-//			line = line.replace(/^\s*bq\.\s+/,'\t<blockquote>')+'</blockquote>'; 
-//			changed = 1; 
-//		}
-		
-//		// jeff adds h#.
-//        if (line.search(/^\s*h[1|2|3|4|5|6]\.\s+/) != -1) { 
-//	    	re = new RegExp('h([1|2|3|4|5|6])\.(.+)','g');
-//	    	line = line.replace(re,'<h$1>$2</h$1>');
-//			changed = 1; 
-//		}
-		
-//		if (line.search(/^\s*\*\s+/) != -1) { line = line.replace(/^\s*\*\s+/,'\t<liu>') + '</liu>'; changed = 1; } // * for bullet list; make up an liu tag to be fixed later
-//        if (line.search(/^\s*#\s+/) != -1) { line = line.replace(/^\s*#\s+/,'\t<lio>') + '</lio>'; changed = 1; } // # for numeric list; make up an lio tag to be fixed later
-        //if (!changed && (line.replace(/\s/g,'').length > 0)) line = '<p>'+line+'</p>'; // do not wrap in extra p
-//        lines[i] = line + '\n';
-//    }
-	
-    // Second pass to do lists
-//    inlist = 0; 
-//	listtype = '';
-//    for (var i=0;i<lines.length;i++) {
-//        line = lines[i];
-//        if (inlist && listtype == 'ul' && !line.match(/^\t<liu/)) { line = '</ul>\n' + line; inlist = 0; }
-//        if (inlist && listtype == 'ol' && !line.match(/^\t<lio/)) { line = '</ol>\n' + line; inlist = 0; }
-//        if (!inlist && line.match(/^\t<liu/)) { line = '<ul>' + line; inlist = 1; listtype = 'ul'; }
-//        if (!inlist && line.match(/^\t<lio/)) { line = '<ol>' + line; inlist = 1; listtype = 'ol'; }
-//        lines[i] = line;
-//    }
 
-//    r = lines.join('\n');
-	// jeff added : will correctly replace <li(o|u)> AND </li(o|u)>
-//    r = r.replace(/li[o|u]>/g,'li>');
-
+    if(islist) {
+      lines = r.split('\n');
+      for (var i=0;i<lines.length;i++) {
+        lines[i] = '<li>' + lines[i] + '</li>';
+      }
+      r = lines.join('\n');
+    }
+    
     return r;
 }
 

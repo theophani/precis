@@ -15,6 +15,9 @@
  */
 
 /**
+  * EDITED AND EXTENDED for user by precis
+  * this version contains extra buttons (delete)
+  *
   * Version 1.7.1
   *
   * ** means there is basic unit tests for this parameter. 
@@ -43,6 +46,8 @@
   * @param String  options[event]     jQuery event such as 'click' of 'dblclick' **
   * @param String  options[submit]    submit button value, empty means no button **
   * @param String  options[cancel]    cancel button value, empty means no button **
+  * @param String  options[del]       delete 'button' value, empty means no button // tmc add
+  * @param String  options[delmsg]    delete confirmation message // tmc add
   * @param String  options[cssclass]  CSS class to apply to input form. 'inherit' to copy from parent. **
   * @param String  options[style]     Style to apply to input form 'inherit' to copy from parent. **
   * @param String  options[select]    true or false, when true text is highlighted ??
@@ -90,10 +95,13 @@
                     || $.editable.types['defaults'].element;
         var reset    = $.editable.types[settings.type].reset 
                     || $.editable.types['defaults'].reset;
+        var del      = $.editable.types[settings.type].del 
+                    || $.editable.types['defaults'].del;
         var callback = settings.callback || function() { };
         var onedit   = settings.onedit   || function() { }; 
         var onsubmit = settings.onsubmit || function() { };
         var onreset  = settings.onreset  || function() { };
+        var ondel    = settings.ondel    || function() { };
         var onerror  = settings.onerror  || reset;
           
         /* show tooltip */
@@ -389,7 +397,6 @@
                         /* show tooltip again */
                         if (settings.tooltip) {
                             $(self).attr('title', settings.tooltip);
-                            $(self).findControl().find('span.change').removeClass('disabled'); // tiffany added. would be better to have a callback
                         }
                     }                    
                 }
@@ -412,6 +419,9 @@
                 },
                 reset : function(settings, original) {
                   original.reset(this);
+                },
+                del : function(settings) {
+                  if (confirm(settings.delmsg)) $(this).remove();
                 },
                 buttons : function(settings, original) {
                     var form = this;
@@ -452,6 +462,28 @@
                             return false;
                         });
                     }
+                    if (settings.del) {
+                        /* if given html string use that */
+                        if (settings.del.match(/>$/)) {
+                            var del = $(settings.del);
+                        /* otherwise use button with given string as text */
+                        } else {
+                            var del = $('<button type="del" />');
+                            del.html(settings.del);
+                        }
+                        $(this).append(del);
+
+                        $(del).click(function(event) {
+                            if ($.isFunction($.editable.types[settings.type].del)) {
+                                var del = $.editable.types[settings.type].del;                                                                
+                            } else {
+                                var del = $.editable.types['defaults'].del;                                
+                            }
+                            del.apply(original, [settings]);
+                            return false;
+                        });
+                    }
+
                 }
             },
             text: {
@@ -536,9 +568,32 @@
         loadtype   : 'GET',
         loadtext   : 'Loading...',
         placeholder: 'Click to edit',
+        delmsg     : 'Really delete?',
         loaddata   : {},
         submitdata : {},
         ajaxoptions: {}
     };
 
 })(jQuery);
+
+
+/*
+ * interesting, but needs to thought out in relation to the precis.editable.js i.e. add as button
+
+    $.fn.changePrecisType = function() {
+      var tagType = $(this).children('em').text().toLowerCase();
+      var e = $( document.createElement( tagType ) );
+      if ( $(this).findTarget().attr("tagName").toLowerCase()=='li') e.html($(this).findTarget().parent().html());
+      else e.html($(this).findTarget().html());
+      e.addPrecis();
+      $(this).findControl().replaceWith(e);
+    }
+
+    $.fn.findTarget =   function() {
+      return $(this).parents('.precis-control:first').find('.target:last');
+    }
+    $.fn.findControl =  function() { return $(this).parents('.precis-control:first'); } // ":first" is here to improve speed
+    
+    //$(this).parent().find('span.change li').click(  function() { $(this).changePrecisType();    } );
+    
+ */
