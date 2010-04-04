@@ -1,5 +1,10 @@
 /* definately precis only ... */
 
+.inline { display:inline; }
+
+.precis_menu h1 { font-family: Helvetica, Arial, sans-serif; line-height: 20px; margin-bottom: 15px; font-weight: normal;
+  text-transform: none; }
+
 .precis_login {
   position:fixed;
   width: 250px;
@@ -105,6 +110,18 @@ span.success { background-color: #2FBE35; color: #fff !important; }
 	background-color: #FFF;
   border-color: #FFF;
 }
+
+.light .precis-control button {
+  color: #666;
+	background-color: #eee;
+  border-color: #eee;
+}
+.light .precis-control button:hover {
+  color: #FFF;
+	background-color: #666;
+  border-color: #666;
+}
+
 
 span.edit:hover,
 span.add:hover,

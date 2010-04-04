@@ -6,6 +6,9 @@
 <link rel="stylesheet" type="text/css" href="screen.css" media="screen" />
 
 <!-- precis start-->
+
+<link rel="stylesheet" type="text/css" href="precis.config.css" media="screen" />
+
 <!--script type="text/javascript" charset="utf-8" src="http://jquery-ui.googlecode.com/svn/trunk/jquery-1.4.1.js"></script--> 
 <script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script> 
 

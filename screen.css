@@ -47,19 +47,13 @@ dd {margin-left:1.5em;}
 Our deviations from reset
 */
 
-body, textarea {
+body {
   color: rgb(47, 190, 53);
   background: rgb(51, 51, 51);
   font-family: 'Courier New', Courier, mono;
 }
 
 img { margin-bottom: 1.5em; }
-
-textarea { border: 1px dotted #666; margin: -5px; padding: 4px; font-size: 100%; line-height: 1.5; margin-top: 3px; background: Transparent; outline: 0; }
-button { margin-top: 10px; }
-li textarea { margin-bottom: 5px; }
-blockquote textarea { color:#666;font-style:italic; padding: 4px 22px; }
-blockquote form { margin: 0 -18px; }
 
 h1,h2,h3,h4,h4,h6 { color: #fff; font-family: Helvetica, Arial, sans-serif; }
 h1,h2,h3,h4,h4,h6 { text-shadow: #000 0px 1px 1px; }

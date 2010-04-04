@@ -24,6 +24,16 @@ $(function() {
         islist  : false,
         data    : prep_input
     }
+
+    var editable_settings_span = {
+        tooltip : "Click to edit",
+        placeholder: "Click to edit",
+        event   : "click",
+        method  : "put",
+        islist  : false,
+        style : 'display: inline; padding: 0 4px;',
+        data    : prep_input
+    }
 /* EDITABLE SETTINGS END */
 
     $.fn.addPrecis = function() {
@@ -31,13 +41,17 @@ $(function() {
         if ( $(this).attr("tagName").toLowerCase()=='img' ) {
           // skip!
         } else {
-          settings = editable_settings;
           if ( $(this).attr("tagName").toLowerCase()=='ul' || $(this).attr("tagName").toLowerCase()=='ol' ) {
-            settings = $.extend({}, editable_settings, {islist:true});
+            this_settings = $.extend({}, editable_settings, {islist:true});
+          } else if ( $(this).attr("tagName").toLowerCase()=='span') {
+            this_settings = editable_settings_span;
+          } else if ( $(this).attr("tagName").toLowerCase()=='div') {
+            this_settings = $.extend({}, editable_settings, {type:'textarea'});
+          } else {
+            this_settings = editable_settings;
           }
-          $(this).editable( function(value,settings) { return parse_input(value, settings, this); }, settings );
+          $(this).editable( function(value,settings) { return parse_input(value, settings, this); }, this_settings );
           $(this).addClass('precis-control');
-          editable_settings.islist = false;
         }
       });
     }
@@ -186,7 +200,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
 
 
 /* ADD SORTABLE LINK */
-		$(".container").sortable();
+		$(".container").sortable({connectWith: '.connected'});
 		$(".container").sortable('disable');
 
     $enableSortableLink = $('<span class="enable-sortable action">Change order of items</span>');
@@ -229,7 +243,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       e.html('Click to edit your new element');
     }
     e.addPrecis();
-    $('.container').append(e);
+    $('.container:first').append(e);
     $.fn.precisPersist();
   });
   
