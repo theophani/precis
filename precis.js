@@ -10,34 +10,103 @@
 
 $(function() {
 
-/* EDITABLE SETTINGS */
-    var editable_settings = {
-        tooltip : "Click to edit",
-        placeholder: "Click to edit",
-        event   : "click",
-        type    : 'autogrow',
-        method  : "put",
-        submit  : 'OK',
-        cancel  : 'Cancel',
-        del     : 'Delete',
-        onblur  : "ignore",
-        islist  : false,
-        data    : prep_input
-    }
-
-    var editable_settings_span = {
-        tooltip : "Click to edit",
-        placeholder: "Click to edit",
-        event   : "click",
-        method  : "put",
-        islist  : false,
-        style : 'display: inline; padding: 0 4px;',
-        data    : prep_input
-    }
-/* EDITABLE SETTINGS END */
-
     $.fn.addPrecis = function() {
-      $(this).each( function() {
+      
+      /* EDITABLE SETTINGS */
+      var editable_settings = {
+          tooltip : "Click to edit",
+          placeholder: "Click to edit",
+          event   : "click",
+          type    : 'autogrow',
+          method  : "put",
+          submit  : 'OK',
+          cancel  : 'Cancel',
+          del     : 'Delete',
+          onblur  : "ignore",
+          islist  : false,
+          data    : prep_input
+      }
+  
+      var editable_settings_span = {
+          tooltip : "Click to edit",
+          placeholder: "Click to edit",
+          event   : "click",
+          method  : "put",
+          islist  : false,
+          style : 'display: inline; padding: 0 4px;',
+          data    : prep_input
+      }
+
+      /* EDITABLE SETTINGS END */
+      
+      /* PRE EDIT */
+      function prep_input(value, settings) {
+       
+        // this is all html to textile:
+        var $content = $('<div>').html(value);
+       
+        if (settings.islist) {
+          var newvalue = '';
+          $content.find('li').each(function(){
+            newvalue += $(this).html() + '\n\n';
+          });
+          $content = $('<div>').html($.trim(newvalue));
+        }
+          
+        easyTags = {
+          strong  : "*",
+          b       : "*",
+          em      : "_",
+          i       : "_"
+        }
+  
+        $.each(easyTags, function(k,v) {
+          $content.find(k).each( function() {
+            $(this).replaceWith(v + $(this).text() + v);
+          });
+        });
+  
+        $content.find('br').each( function() {
+          $(this).replaceWith('\n');
+        });
+  
+        $content.find('a').each( function() {
+          $(this).replaceWith('"' + $(this).text() + '":' + $(this).attr('href') + '' );
+        });
+        
+        return $content.text(); // the extra HTML is stripped from text()
+      }
+      /* PRE EDIT END */
+      
+      function prep_input_count_select(value, settings) {
+        return "{ '1':'Show the most recent tweet only', '2':'Show the 2 most recent tweets', '3':'Show the 3 most recent tweets', '4':'Show the 4 most recent tweets', '5':'Show the 5 most recent tweets', '6':'Show the 6 most recent tweets', '7':'Show the 7 most recent tweets', '8':'Show the 8 most recent tweets', '9':'Show the 9 most recent tweets', '10':'Show the 10 most recent tweets' }";
+      }
+    
+      /* POST EDIT */
+      function parse_input(value, settings, element) {
+        if (value=='') {
+          $(element).remove();
+          return false;
+        }
+        // strips html tags
+        value=value.replace(/<\S[^><]*>/g, "");
+        // converts allowed tags
+        value = superTextile(value,settings.islist);
+        
+        // just for flickr
+        if ($(element).attr('parent-id')) {
+          $('#'+$(element).attr('parent-id')).attr('photo_id',value);
+           $('#'+$(element).attr('parent-id')).precisFlickr('reload');
+        }
+        
+        $(element).attr('revert',value);
+        $.fn.precisPersist();
+        
+        return value;
+      }
+      /* POST EDIT END */
+      
+      return $(this).each( function() {
         if ( $(this).attr("tagName").toLowerCase()=='img' ) {
           // skip!
         } else {
@@ -57,64 +126,6 @@ $(function() {
     }
 
     $('.container > *').addPrecis(); // these lines turn on and off the editing.
-
-/* PRE EDIT */
-    
-    function prep_input(value, settings) {
-     
-      // this is all html to textile:
-      var $content = $('<div>').html(value);
-     
-      if (settings.islist) {
-        var newvalue = '';
-        $content.find('li').each(function(){
-          newvalue += $(this).html() + '\n\n';
-        });
-        $content = $('<div>').html($.trim(newvalue));
-      }
-        
-      easyTags = {
-        strong  : "*",
-        b       : "*",
-        em      : "_",
-        i       : "_"
-      }
-
-      $.each(easyTags, function(k,v) {
-        $content.find(k).each( function() {
-          $(this).replaceWith(v + $(this).text() + v);
-        });
-      });
-
-      $content.find('br').each( function() {
-        $(this).replaceWith('\n');
-      });
-
-      $content.find('a').each( function() {
-        $(this).replaceWith('"' + $(this).text() + '":' + $(this).attr('href') + '' );
-      });
-      
-      return $content.text(); // the extra HTML is stripped from text()
-    }
-/* PRE EDIT END */
-  
-/* POST EDIT */
-    function parse_input(value, settings, element) {
-      if (value=='') {
-        $(element).remove();
-        return false;
-      }
-      // strips html tags
-      value=value.replace(/<\S[^><]*>/g, "");
-      // converts allowed tags
-      value = superTextile(value,settings.islist);
-      
-      $(element).attr('revert',value);
-      $.fn.precisPersist();
-      
-      return value;
-    }
-/* POST EDIT END */
 
 
   
@@ -169,30 +180,30 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       $content.append($(this).precisClone());
     });
 
-    //if (confirm('BUGGY! REVIEW html before continuing: '+$content.html())) {
-      //Yes, PUT is not supported cross browser, I know.
-      $.ajax({
-        url: "/",
-        type: "PUT",
-        data: {
-          content: $content.html()
-        },
-        success: function() {
-          $persistLink.removeClass('processing').addClass('success').html('Saved');
-          setTimeout(function(){
-            $persistLink.removeClass('success').html('Persist');
-    			}, 1500);
-        }
-      });
-    //} else {
-    //      $persistLink.html('Cancelled');
-    //      setTimeout(function(){
-    //       $persistLink.removeClass('processing').html('Persist');
-    //			}, 1500);
-    //}
+    //Yes, PUT is not supported cross browser, I know.
+    $.ajax({
+      url: "/",
+      type: "PUT",
+      data: {
+        content: $content.html()
+      },
+      success: function() {
+        $persistLink.removeClass('processing').addClass('success').html('Saved');
+        setTimeout(function(){
+          $persistLink.removeClass('success').html('Persist');
+  			}, 1500);
+      },
+      error: function() {
+        $persistLink.removeClass('processing').addClass('error').html('Unable to save');
+        setTimeout(function(){
+          $persistLink.removeClass('error').html('Persist');
+  			}, 1500);
+      }
+    });
+
   }
 
-   $persistLink.click($.fn.precisPersist);
+  $persistLink.click($.fn.precisPersist);
   
   $precisMenu.append($persistLink);
   
@@ -211,6 +222,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       $(".container").sortable('enable');
       $('.precis-control').each( function() {
           $(this).editable('disable');
+          $(this).attr('old_title',$(this).attr('title'));
           $(this).attr('title','Drag and drop to rearrange');
       });
     });
@@ -220,7 +232,8 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       $(".container").sortable('disable');
       $('.precis-control').each( function() {
           $(this).editable('enable');
-          $(this).attr('title', editable_settings['tooltip']);
+          $(this).attr('title', $(this).attr('old_title'));
+          $(this).removeAttr('old_title');
       });
     });
     
@@ -277,5 +290,66 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
     $precisMenu.precisTuck();
     $('.precis_login').precisTuck();
 /* ADD CLOSE, and TUCK END */
+
+
+// twitter specifics
+  precisTweet = function() {
+    $.getJSON("http://twitter.com/statuses/user_timeline/"+$('#twitter-control').attr('user')+".json?callback=?",
+      {
+        count: $('#twitter-control').attr('count')
+      },
+      function (tweets) {
+        $('#twitter-items li').remove();
+        $(tweets).each(function(){
+          $("<li/>").html(this.text+' <span class="date">'+prettyDate(this.created_at)+'</span>').appendTo("#twitter-items");
+        });
+      });
+  }
+  precisTweet();
+
+/* ADD CHANGE COUNT MENU */
+  $changeTweetCount = $('<div class="element-select"><div><ul><li><span>Show</span><em>1</em><span>tweet only</span></li><li><span>Show</span><em>3</em><span>most recent</span></li><li><span>Show</span><em>5</em><span>most recent</span></li><li><span>Show</span><em>10</em><span>most recent</span></li></ul></div></div>');
+  
+  $changeTweetCount.find('li').click( function () {
+    var tweetCount = $(this).children('em').text().toLowerCase();
+    $('#twitter-control').attr('count',tweetCount);
+    precisTweet();
+  });
+  
+  $('#twitter-control').append($changeTweetCount);
+/* ADD CHANGE COUNT MENU END */
+
+  // flickr specifics
+  $.fn.precisFlickr = function(option) {
+    $(this).each(function(){
+      var self = this;
+      if (option=='reload') {
+        $(self).find('img').remove();
+        $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&format=json&jsoncallback=?",
+          {
+            photo_id: $(self).attr('photo_id'),
+            api_key: 'f70dc7c7597efd9e8a44f509df21c2ee'
+          },
+          function(data){
+            $(data.sizes['size']).each(function(){
+              if (this.label=='Medium')
+                $("<img/>").attr("src", this.source).prependTo('#'+$(self).attr('id'));
+            });
+          });
+          
+      } else {
+        var holder = $('<p>This photo uses flickr id </p>');
+        var container = $('<span class="container" />');
+        var e = $( '<span parent-id="' + $(self).attr('id') + '">' + $(self).attr('photo_id') + '</span>' );
+        e.addPrecis();
+        container.append(e);
+        holder.append(container);
+        $(self).append(holder);
+      } 
+    });
     
+  }
+  $('.image').precisFlickr();
+
 });
+

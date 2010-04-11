@@ -58,24 +58,12 @@ img { margin-bottom: 1.5em; }
 h1,h2,h3,h4,h4,h6 { color: #fff; font-family: Helvetica, Arial, sans-serif; }
 h1,h2,h3,h4,h4,h6 { text-shadow: #000 0px 1px 1px; }
 
-h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea
-{ color: #fff; font-family: Helvetica, Arial, sans-serif; }
-h1 textarea, h2 textarea, h3 textarea, h4 textarea, h5 textarea, h6 textarea
-{ text-shadow: #000 0px 1px 1px; }
-
-h1 textarea {line-height:1;}
-h2 textarea {}
-h3 textarea {line-height:1;}
-h4 textarea {line-height:1.25;}
-h5 textarea {font-weight:bold;}
-h6 textarea {font-weight:bold;}
-
 ul, ol {margin-left: 2em; margin-right: 0;}
 ul.inside, ol.inside { list-style-position: inside; margin-left: 0; margin-right: 2em; }
 .inside li button { display: none; }
 .inside button { margin-top: 0; }
 
-.container {
+.column {
   width: 300px;
   margin: 50px auto;
   padding-right: 200px;
@@ -83,3 +71,7 @@ ul.inside, ol.inside { list-style-position: inside; margin-left: 0; margin-right
 
 a { color: #990; }
 a:hover{ color: #FFF; }
+
+#twitter-items { margin: 0; list-style-type: none; }
+#twitter-items li { margin-bottom: 1.5em; }
+#twitter-items span.date { color: #666; display: block; }
