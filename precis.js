@@ -96,7 +96,7 @@ $(function() {
         // just for flickr
         if ($(element).attr('parent-id')) {
           $('#'+$(element).attr('parent-id')).attr('photo_id',value);
-           $('#'+$(element).attr('parent-id')).precisFlickr('reload');
+          $('#'+$(element).attr('parent-id')).precisFlickr('reload');
         }
         
         $(element).attr('revert',value);
@@ -107,7 +107,7 @@ $(function() {
       /* POST EDIT END */
       
       return $(this).each( function() {
-        if ( $(this).attr("tagName").toLowerCase()=='img' ) {
+        if ( $(this).hasClass('no-precis') || $(this).hasClass('image') || $(this).attr("tagName").toLowerCase()=='img' ) {
           // skip!
         } else {
           if ( $(this).attr("tagName").toLowerCase()=='ul' || $(this).attr("tagName").toLowerCase()=='ol' ) {
@@ -294,6 +294,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
 
 // twitter specifics
   precisTweet = function() {
+    $('#twitter-control').addClass('loading');
     $.getJSON("http://twitter.com/statuses/user_timeline/"+$('#twitter-control').attr('user')+".json?callback=?",
       {
         count: $('#twitter-control').attr('count')
@@ -303,6 +304,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
         $(tweets).each(function(){
           $("<li/>").html(this.text+' <span class="date">'+prettyDate(this.created_at)+'</span>').appendTo("#twitter-items");
         });
+        $('#twitter-control').removeClass('loading');
       });
   }
   precisTweet();
@@ -324,21 +326,35 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
     $(this).each(function(){
       var self = this;
       if (option=='reload') {
-        $(self).find('img').remove();
+        $(self).addClass('loading');
+        /* show the saving indicator */
         $.getJSON("http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&format=json&jsoncallback=?",
           {
             photo_id: $(self).attr('photo_id'),
             api_key: 'f70dc7c7597efd9e8a44f509df21c2ee'
           },
           function(data){
-            $(data.sizes['size']).each(function(){
-              if (this.label=='Medium')
-                $("<img/>").attr("src", this.source).prependTo('#'+$(self).attr('id'));
-            });
+            if ( data.stat == 'ok' ) {
+              var src = false;
+              $(data.sizes['size']).each(function(){
+                if (this.label=='Medium' && parseInt(this.width) > 499) {
+                  src = this.source;
+                } else if (this.label=='Large' && src===false) {
+                  src = this.source;
+                }
+              });
+              if (src) {
+                $(self).find('img').remove();
+                $("<img/>").attr("src", src).attr("width", 500).prependTo(self);                
+              }
+            } else {
+              // handle fail
+            }
+            $(self).removeClass('loading');
           });
           
       } else {
-        var holder = $('<p>This photo uses flickr id </p>');
+        var holder = $('<p class="prompt">This photo uses flickr id </p>');
         var container = $('<span class="container" />');
         var e = $( '<span parent-id="' + $(self).attr('id') + '">' + $(self).attr('photo_id') + '</span>' );
         e.addPrecis();
