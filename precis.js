@@ -100,7 +100,7 @@ $(function() {
         }
         
         $(element).attr('revert',value);
-        $.fn.precisPersist();
+        // $.fn.precisPersist(); // in future, reintroduce as $.fn.precisPersist('temp')
         
         return value;
       }
@@ -149,7 +149,7 @@ the PUT does not accept an identifier of any type. I do not want to sumbit an en
 HTML body, since then I would have to "recontruct" the ENTIRE body within javascript
 */
 
-  $persistLink = $('<span class="action persist">Persist</span>');
+  $persistLink = $('<span class="action persist">Publish</span>');
   
   $.fn.precisClone = function() {
     
@@ -190,13 +190,13 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       success: function() {
         $persistLink.removeClass('processing').addClass('success').html('Saved');
         setTimeout(function(){
-          $persistLink.removeClass('success').html('Persist');
+          $persistLink.removeClass('success').html('Publish');
   			}, 1500);
       },
       error: function() {
         $persistLink.removeClass('processing').addClass('error').html('Unable to save');
         setTimeout(function(){
-          $persistLink.removeClass('error').html('Persist');
+          $persistLink.removeClass('error').html('Publish');
   			}, 1500);
       }
     });
@@ -227,7 +227,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       });
     });
     $disableSortableLink.click( function() {
-      $.fn.precisPersist();
+      //$.fn.precisPersist(); // in future, reintroduce as $.fn.precisPersist('temp')
       $('body').removeClass('precis-disabled');
       $(".container").sortable('disable');
       $('.precis-control').each( function() {
@@ -257,7 +257,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
     }
     e.addPrecis();
     $('.container:first').append(e);
-    $.fn.precisPersist();
+    //$.fn.precisPersist(); // in future, reintroduce as $.fn.precisPersist('temp')
   });
   
   $precisMenu.append($addItemsLink);
