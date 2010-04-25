@@ -107,8 +107,12 @@ $(function() {
       /* POST EDIT END */
       
       return $(this).each( function() {
+        $(this).find('a').click(function(event){
+          event.preventDefault();
+        });
         if ( $(this).hasClass('no-precis') || $(this).hasClass('image') || $(this).attr("tagName").toLowerCase()=='img' ) {
           // skip!
+          $(this).attr("title","This item is protected. It cannot be edited.");
         } else {
           if ( $(this).attr("tagName").toLowerCase()=='ul' || $(this).attr("tagName").toLowerCase()=='ol' ) {
             this_settings = $.extend({}, editable_settings, {islist:true});
@@ -219,21 +223,25 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
 
     $enableSortableLink.click( function() {
       $('body').addClass('precis-disabled');
-      $(".container").sortable('enable');
-      $('.precis-control').each( function() {
+      $(".container").sortable('enable');      
+      $(".container > *").each(function(){
+        if ( $(this).hasClass('precis-control') ) {
           $(this).editable('disable');
-          $(this).attr('old_title',$(this).attr('title'));
-          $(this).attr('title','Drag and drop to rearrange');
+        }
+        $(this).attr('old_title',$(this).attr('title'));
+        $(this).attr('title','Drag and drop to rearrange');        
       });
     });
     $disableSortableLink.click( function() {
       //$.fn.precisPersist(); // in future, reintroduce as $.fn.precisPersist('temp')
       $('body').removeClass('precis-disabled');
       $(".container").sortable('disable');
-      $('.precis-control').each( function() {
+      $(".container > *").each(function(){
+        if ( $(this).hasClass('precis-control') ) {
           $(this).editable('enable');
-          $(this).attr('title', $(this).attr('old_title'));
-          $(this).removeAttr('old_title');
+        }
+        $(this).attr('title', $(this).attr('old_title'));
+        $(this).removeAttr('old_title');
       });
     });
     
@@ -267,6 +275,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
   $logoutLink = $('<span class="action logout">Logout</span>');
   $logoutLink.click(function(){
     alert('Not working yet. BLARG!');
+    //  <a href="/admin/logout">Logout</a>
   });
   $precisMenu.append($logoutLink);
 /* ADD LOGOUT LINK END */
