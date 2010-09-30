@@ -2,7 +2,7 @@
 
 ## WTF:
 
-précis adds in-place editing to configured* HTML files. The goal was to create a "micro CMS" for one page websites.
+précis adds in-place editing to configured HTML files. The goal was to create a "micro CMS" for one page websites.
 
 This repo can be seen in action here:
 [dev.precis-project.com/test](http://dev.precis-project.com/test/)
@@ -17,7 +17,7 @@ The approach for a précis-powered one page website:
 * after login the editing menu appears and the elements become editable in-place
 * i.e. the site owner can edit the page and save the edits online, with no special HTML knowledge
 
-I say "configured" because presently, the HTML structure and classes much conform to précis' needs. As well, precis.config.css must contain form and control styling to match the page. I plan to remove (i.e abstract away) the need for the HTML to be so specifically formed.)
+I say "configured" because presently, the HTML structure and classes must conform to précis' needs. As well, precis.config.css must contain form and control styling to match the page. I plan to remove (i.e abstract away) the need for the HTML to be so specifically formed.)
 
 ## LICENSE:
 
