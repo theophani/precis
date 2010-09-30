@@ -10,11 +10,11 @@ This repo can be seen in action here:
 ## YTF:
 
 The approach for a précis-powered one page website:
-- we create a simple one-page site design and code it in HTML/CSS
-- we serve that static page to site visitors
-- when the site owner visits http://sitelocation.com/edit they are prompted to login
-- after login the editing menu appears and the elements become editable in-place
-- i.e. the site owner can edit the page and save the edits online, with no special HTML knowledge
+ - we create a simple one-page site design and code it in HTML/CSS
+ - we serve that static page to site visitors
+ - when the site owner visits http://sitelocation.com/edit they are prompted to login
+ - after login the editing menu appears and the elements become editable in-place
+ - i.e. the site owner can edit the page and save the edits online, with no special HTML knowledge
 
 I say "configured" because presently, the HTML structure and classes much conform to précis' needs. As well, precis.config.css must contain form and control styling to match the page. I plan to remove (i.e abstract away) the need for the HTML to be so specifically formed.)
 
