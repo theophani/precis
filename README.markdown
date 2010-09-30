@@ -24,6 +24,8 @@ MIT [http://www.opensource.org/licenses/mit-license.php] (http://www.opensource.
 
 ## SOME APOLOGIES:
 
+Please use Chrome for testing. There are a few minor annoyances in FF still.
+
 I hope it makes sense how to edit, add, remove and rearrange the items.
 
 I don't expect anyone to understand how the flickr works since it is no where near done. I had big plans for this control. For now, to change the image, click the ID to edit it, change it to another valid flickr ID, and press enter.
