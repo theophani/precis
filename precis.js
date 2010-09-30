@@ -129,29 +129,17 @@ $(function() {
       });
     }
 
-    $('.container > *').addPrecis(); // these lines turn on and off the editing.
+    $('.container > *').addPrecis(); // apply ie. turn on the editing.
 
 
-  
 /* ADD MENU */
-  $('.precis_menu').remove();
+  $('.precis_menu').remove(); // get rid of no-javascript warning
   $precisMenu = $('<div class="precis_menu"><h1>Menu</h1></div>');
   $('body').append($precisMenu);
 /* ADD MENU END */
 
 
 /* ADD PERSIST BUTTON */
-
-/** Tiffany's notes to self:
-should be converted to a function that accepts the target and options, which is totally NOT the case now.
-I have not yet decided:
-the function should be applied to (1) the body, and all editable areas would be detected,
-and each would get a persist action, that operates on save, or (2) allied to each editable
-area. (I think just once on the body is best, which allows for a global persist status ...)
-EITHER WAY: this version does not allow more than one editable area BECAUSE
-the PUT does not accept an identifier of any type. I do not want to sumbit an entire
-HTML body, since then I would have to "recontruct" the ENTIRE body within javascript
-*/
 
   $persistLink = $('<span class="action persist">Publish</span>');
   
@@ -264,12 +252,24 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
       e.html('Click to edit your new element');
     }
     e.addPrecis();
-    $('.container:first').append(e);
+    $('.newtarget:first').prepend(e);
     //$.fn.precisPersist(); // in future, reintroduce as $.fn.precisPersist('temp')
   });
   
   $precisMenu.append($addItemsLink);
 /* ADD ITEMS END */
+
+/* ADD HIGHLIGHT LINK */
+//  $highlightLink = $('<span class="action highlight">Highlight editable areas</span>');
+//  $highlightLink.click(function(){
+//    if ($(this).hasClass('highlight')) {
+//      $('.precis-control').addClass('precis-highlight');
+//    } else {
+//      $('.precis-control').removeClass('precis-highlight');
+//    }
+//  });
+//  $precisMenu.append($highlightLink);
+/* ADD HIGHLIGHT LINK END */
 
 /* ADD LOGOUT LINK */
   $logoutLink = $('<span class="action logout">Logout</span>');
@@ -346,7 +346,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
             if ( data.stat == 'ok' ) {
               var src = false;
               $(data.sizes['size']).each(function(){
-                if (this.label=='Medium' && parseInt(this.width) > 499) {
+                if (this.label=='Small' && parseInt(this.width) > 239) {
                   src = this.source;
                 } else if (this.label=='Large' && src===false) {
                   src = this.source;
@@ -354,7 +354,7 @@ HTML body, since then I would have to "recontruct" the ENTIRE body within javasc
               });
               if (src) {
                 $(self).find('img').remove();
-                $("<img/>").attr("src", src).attr("width", 500).prependTo(self);                
+                $("<img/>").attr("src", src).attr("width", 240).prependTo(self);                
               }
             } else {
               // handle fail

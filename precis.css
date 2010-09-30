@@ -2,6 +2,11 @@
 
 .inline { display:inline; }
 
+.precis-highlight, .precis-highlight * {
+  background-color: yellow;
+}
+.precis-highlight form { }
+
 .precis_menu h1 { font-family: Helvetica, Arial, sans-serif; line-height: 20px; margin-bottom: 15px; font-weight: normal;
   text-transform: none; }
 
@@ -96,6 +101,7 @@ span.error { background-color: #C00;color: #fff !important; }
 .precis-disabled .ui-sortable > * { cursor: move; }
 
 .precis-control button {
+  cursor: pointer;
   font-size: 10px; line-height:18px;
   font-family: Arial; color: #FFF;
 	padding: 0; margin-right: 6px;
@@ -260,14 +266,14 @@ span.disabled:hover div { display: none; }
   text-align: center;
 }
 
-.image { position: relative; width: 500px; }
+.image { position: relative; width: 240px; }
 .image p {
   filter: alpha(opacity=0); opacity: 0; 
   position: absolute;
 	top: 0; left: 0;
 	width: 100%;
-	text-align: center;
-	padding-top: 3em;
+	line-height: 2em;
+	padding: 3em 0 0 2em;
 }
 .image:hover img {
   filter: alpha(opacity=25); opacity: .25;
