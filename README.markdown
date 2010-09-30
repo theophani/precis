@@ -4,6 +4,8 @@
 
 précis adds in-place editing to configured* HTML files. The goal was to create a "micro CMS" for one page websites.
 
+## YTF:
+
 The approach for a précis-powered one page website:
 - we create a simple one-page site design and code it in HTML/CSS
 - we serve that static page to site visitors
